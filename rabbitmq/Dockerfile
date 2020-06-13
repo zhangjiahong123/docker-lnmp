@@ -1,0 +1,1 @@
+FROM daocloud.io/library/rabbitmq:3.7.7-management-alpine

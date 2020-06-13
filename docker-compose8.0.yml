@@ -1,0 +1,68 @@
+version: '3'
+services:
+  nginx:
+    build: ./nginx
+    depends_on:
+      - php
+    ports: 
+      - "81:80"
+      - "444:443"
+    volumes:
+      - ./www:/usr/share/nginx/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/cert:/etc/nginx/cert
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/log/error.log:/var/log/nginx/error.log
+    networks:
+      - frontend
+    restart: always
+    container_name: nginx
+
+  php:
+    build: ./php
+    volumes:
+      - ./www:/var/www/html
+      - ./php/config/php.ini:/usr/local/etc/php/php.ini
+      - ./php/config/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./php/config/php-fpm.d:/usr/local/etc/php-fpm.d
+    #command: ["php", "/var/www/html/bjkgg/bin/m-httpd","service", "start","d"]
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "9501:9501"
+    restart: always
+    container_name: php
+
+  mysql:
+    build: ./mysql
+    #8.0需要
+    command: --default-authentication-plugin=mysql_native_password --innodb-use-native-aio=0
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    networks:
+      - backend
+    restart: always
+    container_name: mysql
+
+  redis:
+    build: ./redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./redis/redis.conf/:/usr/local/etc/redis.conf
+      - ./redis/data:/usr/local/redis/data
+      - ./redis/redis.log:/usr/local/redis/redis.log
+    networks:
+      - backend
+    restart: always
+    container_name: redis
+
+networks:
+  frontend:
+  backend:
