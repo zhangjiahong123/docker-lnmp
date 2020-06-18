@@ -57,7 +57,7 @@ RUN cd ~ \
     && mv /usr/local/rabbitmq-c-0.9.0/lib64 /usr/local/rabbitmq-c-0.9.0/lib \
     && docker-php-ext-install amqp \
 
-    && docker-php-ext-install pdo_mysql mysqli pcntl \
+    && docker-php-ext-install pdo_mysql mysqli pcntl sockets \
     
     && apk update \
     && apk add freetype freetype-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev \
