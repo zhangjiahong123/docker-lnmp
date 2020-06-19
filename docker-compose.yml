@@ -74,7 +74,7 @@ services:
       #- "4369:4369"
     environment:
       #- RABBITMQ_ERLANG_COOKIE=rabbitmqCookie
-      - RABBITMQ_DEFAULT_VHOST=itet
+      #- RABBITMQ_DEFAULT_VHOST=itet
       - RABBITMQ_DEFAULT_USER=adm
       - RABBITMQ_DEFAULT_PASS=adm
     volumes:
