@@ -1,4 +1,4 @@
-####1.安装Docker
+#### 1.安装Docker
 
 首先需要安装docker 已經安裝过的兄台，可以忽略这一步，执行第二步
 
@@ -20,7 +20,7 @@ sudo systemctl enable docker.service
 sudo service docker start|restart|stop
 ````
 
-####2. 安装
+#### 2. 安装
 ````
 git clone https://github.com/zhangjiahong123/docker-lnmp.git
 cd docker-lnmp
@@ -63,7 +63,8 @@ PID=$(docker inspect --format "{{ .State.Pid }}" container_id)
 ````
 
 
-####常见问题处理
+#### 常见问题处理
+
 redis启动失败问题 在v2版本中redis的启动用户为redis不是root,所以在宿主机中挂载的./redis/redis.log和./redis/data需要有写入权限。
 
     chmod 777 ./redis/redis.log
