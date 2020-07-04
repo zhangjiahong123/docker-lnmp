@@ -1,4 +1,5 @@
-##1.安装Docker
+首先需要安装docker 已經安裝过的兄台，可以忽略第一步，直接安装
+####1.安装Docker
 
 windows 安装
 
@@ -7,18 +8,18 @@ windows 安装
 
 linux
 
-#### 下载安装
+下载安装
 ````
 curl -sSL https://get.docker.com/ | sh
 ````
-#### 设置开机自启
+设置开机自启
 ````
 sudo systemctl enable docker.service
 
 sudo service docker start|restart|stop
 ````
 
-##2. 安装
+####2. 安装
 ````
 git clone https://github.com/zhangjiahong123/docker-lnmp.git
 cd docker-lnmp
@@ -30,7 +31,7 @@ docker-compose up -d
 
 该版本是通过拉取官方已经制作好的各个服务的镜像，再通过Dockerfile相关命令根据自身需求做相应的调整。所以该方式构建迅速使用方便，因为是基于Alpine Linux所以占用空间很小。
 
-#### ELK(+filebeat)
+ELK(+filebeat)
 
 Elasticsearch、Logstash、Kibana、Filebeat一键搭建日志收集系统
 
@@ -40,7 +41,7 @@ chmod +x elk.sh
 ./elk.sh
 ````
 
-#### 测试
+####3.测试
 使用docker ps查看容器启动状态,若全部正常启动了则 通过访问127.0.0.1、127.0.0.1/index.php、127.0.0.1/db.php、127.0.0.1/redis.php 即可完成测试 (若想使用https则请修改nginx下的dockerfile，和nginx.conf按提示去掉注释即可，灵需要在ssl文件夹中加入自己的证书文件，本项目自带的是空的，需要自己替换，保持文件名一致)
 
 1.进入容器内部
