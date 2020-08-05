@@ -12,7 +12,7 @@ COPY config/php.ini /usr/local/etc/php
 #    && make install \
 
 ENV PHPREDIS_VERSION 5.0.2
-ENV SWOOLE_VERSION 4.4.17
+ENV SWOOLE_VERSION 4.5.1
 ENV RABBITMQ_AMQP 1.9.4
 
 # 修改镜像源
