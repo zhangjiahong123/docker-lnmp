@@ -24,9 +24,10 @@ sudo service docker start|restart|stop
 ````
 git clone https://github.com/zhangjiahong123/docker-lnmp.git
 cd docker-lnmp
+chmod +x docker-compose
 chmod 777 ./redis/redis.log
 chmod -R 777 ./redis/data
-docker-compose up -d
+./docker-compose up -d
 ````
 站点根目录为 docker-lnmp/www
 
