@@ -56,8 +56,11 @@ RUN cd ~ \
     && docker-php-ext-configure amqp --with-php-config=/usr/local/bin/php-config  --with-librabbitmq-dir=/usr/local/rabbitmq-c-0.9.0 \
     && mv /usr/local/rabbitmq-c-0.9.0/lib64 /usr/local/rabbitmq-c-0.9.0/lib \
     && docker-php-ext-install amqp \
+	
+	&& apk add libzip-dev \
+	&& docker-php-ext-install zip \
 
-    && docker-php-ext-install pdo_mysql mysqli pcntl sockets \
+    && docker-php-ext-install pdo_mysql mysqli pcntl sockets bcmath \
     
     && apk update \
     && apk add zlib freetype freetype-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev \
@@ -67,4 +70,4 @@ RUN cd ~ \
     && rm /var/cache/apk/* \    
 
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
-    && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
+    && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
