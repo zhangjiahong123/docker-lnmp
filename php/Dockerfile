@@ -18,8 +18,9 @@ ENV RABBITMQ_AMQP 1.9.4
 # 修改镜像源
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
     &&   apk update \
-    &&   apk add ca-certificates wget \
-    &&   update-ca-certificates
+    &&   apk add --no-cache ca-certificates wget \
+    &&   update-ca-certificates 2>/dev/null || true \
+	
 
 RUN cd ~ \
     && adduser -s /bin/bash git -D -H \
@@ -29,16 +30,19 @@ RUN cd ~ \
     && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
     && docker-php-ext-install redis \
 
-    && apk add libstdc++ libpng-dev \
+
+
+	&& apk add openssl-dev \
     && cd ~ \
     && wget https://github.com/swoole/swoole-src/archive/v$SWOOLE_VERSION.tar.gz \
     && tar -zxvf v$SWOOLE_VERSION.tar.gz \
     && mkdir -p /usr/src/php/ext \
     && mv swoole-src-$SWOOLE_VERSION /usr/src/php/ext/swoole \
+	&& docker-php-ext-configure swoole --enable-openssl --enable-mysqlnd \
     && docker-php-ext-install swoole \
 
     #&& apk add libtool autoconf automake cmake make libc-dev openssl-dev gcc \
-    && apk add cmake make libc-dev openssl-dev gcc \
+    && apk add cmake make libc-dev gcc \
     && cd ~ \
     && wget https://github.com/alanxz/rabbitmq-c/archive/v0.9.0.tar.gz \
     && tar -zxvf v0.9.0.tar.gz \
@@ -57,17 +61,19 @@ RUN cd ~ \
     && mv /usr/local/rabbitmq-c-0.9.0/lib64 /usr/local/rabbitmq-c-0.9.0/lib \
     && docker-php-ext-install amqp \
 	
-	&& apk add libzip-dev \
-	&& docker-php-ext-install zip \
-
-    && docker-php-ext-install pdo_mysql mysqli pcntl sockets bcmath \
+	
+	&& docker-php-ext-install pdo_mysql mysqli pcntl sockets bcmath \
     
     && apk update \
-    && apk add zlib freetype freetype-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev \
+    && apk add freetype freetype-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && apk del freetype-dev libpng-dev libjpeg-turbo-dev \
-    && rm /var/cache/apk/* \    
+	
+	&& apk add libzip-dev \
+	&& docker-php-ext-install zip \
+	
 
+	&& apk add zlib \	
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
     && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
