@@ -4,6 +4,7 @@ services:
     build: ./nginx
     depends_on:
       - php
+      - hyperf
     ports: 
       - "81:80"
       - "444:443"
@@ -33,6 +34,22 @@ services:
       - "9501:9501"
     restart: always
     container_name: php
+    
+  hyperf:
+    build: ./hyperf/7.3
+    volumes:
+      - ./www:/opt/www
+    #  - ./hyperf/7.2/config/php.ini:/etc/php7/php.ini
+      #command: ["php", "/var/www/html/bjkgg/bin/m-httpd","service", "start","d"]
+    stdin_open: true
+    tty: true
+    networks:
+      - frontend
+      - backend
+    #ports:
+    #  - "9501:9501"
+    restart: always
+    container_name: hyperf
 
   mysql:
     build: ./mysql57
