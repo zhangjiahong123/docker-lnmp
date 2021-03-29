@@ -24,8 +24,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     &&   apk add --no-cache ca-certificates wget \
     &&   update-ca-certificates 2>/dev/null || true \
 
-RUN apk --no-cache --allow-untrusted --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ add gnu-libiconv
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # update
 RUN set -ex \
@@ -54,7 +52,10 @@ RUN set -ex \
     && echo "${TIMEZONE}" > /etc/timezone \
     # ---------- clear works ----------
     && rm -rf /var/cache/apk/* /tmp/* /usr/share/man \
-    && echo -e "\033[42;37m Build Completed :).\033[0m\n"
+    && echo -e "\033[42;37m Build Completed :).\033[0m\n" \
+	&& apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
+
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 #COPY . /opt/www
 
