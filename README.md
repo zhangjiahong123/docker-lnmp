@@ -23,6 +23,7 @@ sudo service docker start|restart|stop
 #### 2. 安装
 ````
 git clone https://github.com/zhangjiahong123/docker-lnmp.git
+docker network create elk_elknet
 cd docker-lnmp
 chmod +x docker-compose
 chmod 777 ./redis/redis.log

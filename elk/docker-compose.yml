@@ -24,6 +24,8 @@ services:
     #  nofile:
     #    soft: 65536
     #    hard: 65536
+    networks:
+      - elknet
 
 
   es-slave1:
@@ -48,8 +50,9 @@ services:
     #  nofile:
     #    soft: 65536
     #    hard: 65536
-
-
+    networks:
+      - elknet
+      
   es-slave2:
     container_name: es-slave2
     image: elasticsearch:7.4.2
@@ -72,6 +75,8 @@ services:
     #  nofile:
     #    soft: 65536
     #    hard: 65536
+    networks:
+      - elknet
 
 
   # kibana
@@ -91,8 +96,9 @@ services:
       - es-master
       - es-slave1
       - es-slave2
-
-
+    networks:
+      - elknet
+      
   # logstash
   logstash:
     container_name: logstash
@@ -115,7 +121,8 @@ services:
       - es-master
       - es-slave1
       - es-slave2
-
+    networks:
+      - elknet
 
   # filebeat
   filebeat:
@@ -138,8 +145,9 @@ services:
       - es-master
       - es-slave1
       - es-slave2
-
-
+    networks:
+      - elknet
+      
   # es-head
   es-head:
     container_name: es-head
@@ -151,6 +159,8 @@ services:
       - es-master
       - es-slave1
       - es-slave2
+    networks:
+      - elknet
 
 
   # es监控工具
@@ -162,6 +172,8 @@ services:
       - 9001:9000
     command:
       - -Dhosts.0.host=http://es-master:9200
+    networks:
+      - elknet
 
 
   # es索引管理
@@ -191,9 +203,10 @@ services:
   #  volumes:
   #    - /var/run/docker.sock:/var/run/docker.sock
   #    - ./portainer-data:/data
+  #  networks:
+  #    - elknet
 
 
 networks:
-  default:
-    external:
-      name: dlnmp_elknet
+  elknet:
+    driver: bridge
