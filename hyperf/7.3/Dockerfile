@@ -15,23 +15,24 @@ LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MI
 ARG timezone
 
 ENV TIMEZONE=${timezone:-"Asia/Shanghai"} \
-    COMPOSER_VERSION=1.10.13
+    COMPOSER_VERSION=2.0.13
     #APP_ENV=prod
 
 # 修改镜像源
+
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
     &&   apk update \
     &&   apk add --no-cache ca-certificates wget \
-    &&   update-ca-certificates 2>/dev/null || true \
+    &&   update-ca-certificates 2>/dev/null || true
 
 
 # update
 RUN set -ex \
-    && apk update \
+    #&& apk update \
     # install composer
 	&& apk add --no-cache php7-simplexml php7-tokenizer php7-fileinfo php7-xmlwriter \
     && cd /tmp \
-    && wget https://github.com/composer/composer/releases/download/1.10.13/composer.phar \
+    && wget https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
     && chmod u+x composer.phar \
     && mv composer.phar /usr/local/bin/composer \
 	&& composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
