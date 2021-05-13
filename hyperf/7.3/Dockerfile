@@ -30,7 +30,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN set -ex \
     #&& apk update \
     # install composer
-	&& apk add --no-cache php7-simplexml php7-tokenizer php7-fileinfo php7-xmlwriter \
+	#&& apk add --no-cache php7-simplexml php7-tokenizer php7-fileinfo php7-xmlwriter \
     && cd /tmp \
     && wget https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
     && chmod u+x composer.phar \
@@ -46,7 +46,7 @@ RUN set -ex \
         echo "upload_max_filesize=100M"; \
         echo "post_max_size=108M"; \
         echo "memory_limit=1024M"; \
-        echo "date.timezone=${TIMEZONE}"; \
+        echo "date.timezone=${TIMEZONE}"; \+
     } | tee conf.d/99-overrides.ini \
     # - config timezone
     && ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \

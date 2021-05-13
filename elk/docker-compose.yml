@@ -24,8 +24,8 @@ services:
     #  nofile:
     #    soft: 65536
     #    hard: 65536
-    #networks:
-    #  - elknet
+    networks:
+      - elknet
 
 
   es-slave1:
@@ -50,8 +50,8 @@ services:
     #  nofile:
     #    soft: 65536
     #    hard: 65536
-    #networks:
-    #  - elknet
+    networks:
+      - elknet
       
   es-slave2:
     container_name: es-slave2
@@ -75,8 +75,8 @@ services:
     #  nofile:
     #    soft: 65536
     #    hard: 65536
-    #networks:
-    #  - elknet
+    networks:
+      - elknet
 
 
   # kibana
@@ -96,8 +96,8 @@ services:
       - es-master
       - es-slave1
       - es-slave2
-    #networks:
-    #  - elknet
+    networks:
+      - elknet
       
   # logstash
   logstash:
@@ -121,8 +121,8 @@ services:
       - es-master
       - es-slave1
       - es-slave2
-    #networks:
-    #  - elknet
+    networks:
+      - elknet
 
   # filebeat
   filebeat:
@@ -145,8 +145,8 @@ services:
       - es-master
       - es-slave1
       - es-slave2
-    #networks:
-    #  - elknet
+    networks:
+      - elknet
       
   # es-head
   es-head:
@@ -159,8 +159,8 @@ services:
       - es-master
       - es-slave1
       - es-slave2
-    #networks:
-    #  - elknet
+    networks:
+      - elknet
 
 
   # es监控工具
@@ -172,8 +172,8 @@ services:
       - 9001:9000
     command:
       - -Dhosts.0.host=http://es-master:9200
-    #networks:
-    #  - elknet
+    networks:
+      - elknet
 
 
   # es索引管理
@@ -208,6 +208,5 @@ services:
 
 
 networks:
-  default:
-    external:
-      name: dlnmp_elknet
+  elknet:
+    driver: bridge

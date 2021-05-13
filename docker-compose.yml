@@ -14,8 +14,8 @@ services:
       - ./nginx/cert:/etc/nginx/cert
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/log/error.log:/var/log/nginx/error.log
-    networks:
-      - elknet
+    #networks:
+    #  - elknet
     restart: always
     container_name: nginx
 
@@ -27,8 +27,8 @@ services:
       - ./php/config/php-fpm.conf:/usr/local/etc/php-fpm.conf
       - ./php/config/php-fpm.d:/usr/local/etc/php-fpm.d
     #command: ["php", "/var/www/html/bjkgg/bin/m-httpd","service", "start","d"]
-    networks:
-      - elknet
+    #networks:
+    #  - elknet
     #  - backend
     ports:
       - "9000:9000"
@@ -43,8 +43,8 @@ services:
       #command: ["php", "/var/www/html/bjkgg/bin/m-httpd","service", "start","d"]
     stdin_open: true
     tty: true
-    networks:
-      - elknet
+    #networks:
+    #  - elknet
     ports:
       - "9501:9501"
       - "9502:9502"
@@ -61,8 +61,8 @@ services:
       - ./mysql57/my.cnf:/etc/my.cnf
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-    networks:
-      - elknet
+    #networks:
+    #  - elknet
     restart: always
     container_name: mysql
 
@@ -74,8 +74,8 @@ services:
       - ./redis/redis.conf/:/usr/local/etc/redis.conf
       - ./redis/data:/usr/local/redis/data
       - ./redis/redis.log:/usr/local/redis/redis.log
-    networks:
-      - elknet
+    #networks:
+    #  - elknet
     restart: always
     container_name: redis
 
@@ -95,21 +95,21 @@ services:
       - RABBITMQ_DEFAULT_USER=adm
       - RABBITMQ_DEFAULT_PASS=adm
     volumes:
-      #- ./rabbitmq/data:/var/lib/rabbitmq
+      - ./rabbitmq/data:/var/lib/rabbitmq
       - ./rabbitmq/log:/var/log/rabbitmq/log
     #command: ["chmod", "600","/var/lib/rabbitmq/.erlang.cookie"]
-    networks:
-      - elknet
+    #networks:
+    #  - elknet
     restart: always
     container_name: rabbitmq
     
-networks:
-  elknet:
-    driver: bridge
-
 #networks:
+#  elknet:
+#    driver: bridge
+
+networks:
   #frontend:
   #backend:
-#  default:
-#    external:
-#      name: elk_elknet
+  default:
+    external:
+      name: elk_elknet
